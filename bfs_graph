@@ -1,0 +1,22 @@
+def bfs(head, gragh):
+    queue = [head]
+    marked = [head]
+    while queue:
+        node = queue[0]
+        queue = queue[1:]
+        for neighbour in gragh[node]:
+            if neighbour not in marked:
+                queue.append(neighbour)
+                marked.append(neighbour)
+    return marked
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F', 'G'],
+    'D': ['B'],
+    'E': ['B'],
+    'F': ['C'],
+    'G': ['C']
+}
+bfs('G', graph)
