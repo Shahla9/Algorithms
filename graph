@@ -1,0 +1,22 @@
+class Gragh:
+    def __init__(self):
+        self.N = []
+        self.E = {}
+
+    def insert_node(self, node):
+        self.N.append(node)
+        self.E[node] = []
+
+    def insert_edge(self, a_node, b_node):
+        self.E[a_node].append(b_node)
+        self.E[b_node].append(a_node)
+
+    def is_connected(self, a_node, b_node):
+        return b_node in self.E[a_node]
+
+g = Gragh()
+g.insert_node(0)
+g.insert_node(1)
+g.insert_edge(0, 1)
+g.is_connected(0, 1)
+g.is_connected(1, 0) 
