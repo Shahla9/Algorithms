@@ -1,0 +1,10 @@
+unsorted_list = [4, 8, 2, 5, 6, 1]
+def selection_sort(array):
+    sorted_list = []
+    for i in range(len(array)):
+        least_element = min(unsorted_list)
+        sorted_list.append(least_element)
+        array.remove(least_element)
+    return sorted_list
+
+print(selection_sort(unsorted_list))       
