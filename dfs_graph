@@ -1,0 +1,22 @@
+def dfs(node, graph, marked):
+    output = [node]
+    marked.append(node)
+
+    for v in graph[node]:
+        if v not in marked:
+            output += dfs(v, graph, marked)
+
+    return output
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F', 'G'],
+    'D': ['B'],
+    'E': ['B'],
+    'F': ['C'],
+    'G': ['C']
+}
+marked = []
+head = 'A'
+print(dfs(head, graph, marked))
