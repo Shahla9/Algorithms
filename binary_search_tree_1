@@ -6,53 +6,72 @@ class Node:
 
     def set_value(self, value):
         self.value = value
-
     def set_left(self, node):
         self.left = node
-
     def set_right(self, node):
         self.right = node
-
     def get_value(self):
         return self.value
-
-    def get_left(self):
-        return self.left
-
     def get_right(self):
         return self.right
-
+    def get_left(self):
+        return self.left
 
 class Tree:
     def __init__(self):
         self.root = Node()
 
-
     def insert(self, value):
         if self.root.get_value() == None:
             self.root.set_value(value)
         else:
-            node = Node()
-            node.set_value(value)
-            if self.root.get_value() > value:
-                self.root.set_left(node)
+            self.insert_recursive(self.root, value)
+
+    def insert_recursive(self, current_node, value):
+        if value < current_node.get_value():
+            if current_node.get_left() == None:
+                node = Node()
+                node.set_value(value)
+                current_node.set_left(node)
             else:
-                self.root.set_right(node)
-        
+                self.insert_recursive(current_node.get_left(), value)
+        else:
+            if current_node.get_right() == None:
+                node = Node()
+                node.set_value(value)
+                current_node.set_right(node)
+            else:
+                self.insert_recursive(current_node.get_right(), value)
 
     def get_min(self):
         if self.root.get_value() == None:
             return None
-        if self.root.get_left() == None:
-            return self.root.get_value()
-        else:
-            return self.root.get_left().get_value()
-            
-    def get_max(self):
-        return self.root.get_value()
+        current_node = self.root
+        while current_node.get_left() != None:
+            current_node = current_node.get_left()
+        return current_node.get_value()
 
+    def get_max(self):
+        if self.root.get_value() == None:
+            return None
+        current_node = self.root
+        while current_node.get_right() != None:
+            current_node = current_node.get_right()
+        return current_node.get_value()
+        
 tree = Tree()
-tree.insert(2)
 tree.insert(3)
-print(tree.get_min())
+tree.insert(1)
+tree.insert(2)
+tree.insert(0)
+tree.insert(5)
+tree.insert(50)
+tree.insert(4)
+tree.insert(12)
+tree.insert(10)
+tree.insert(78)
+tree.insert(31)
+tree.insert(7)
+tree.insert(43)
 print(tree.get_max())
+print(tree.get_min())
