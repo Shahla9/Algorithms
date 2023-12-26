@@ -1,0 +1,113 @@
+class Node:
+    def __init__(self):
+        self.value = None
+        self.left = None
+        self.right = None
+    def set_value(self, value):
+        self.value = value
+    def set_left(self, node):
+        self.left = node
+    def set_right(self, node):
+        self.right = node
+    def get_value(self):
+        return self.value
+    def get_left(self):
+        return self.left
+    def get_right(self):
+        return self.right
+
+class Tree:
+    def __init__(self):
+        self.root = Node()
+
+    def insert(self, value):
+        if self.root.get_value() == None:
+            self.root.set_value(value)
+        else:
+            self._insert(self.root, value)
+
+    def _insert(self, current_node, value):
+        if value < current_node.get_value():
+            if current_node.get_left() == None:
+                node = Node()
+                node.set_value(value)
+                current_node.set_left(node)
+            else:
+                self._insert(current_node.get_left(), value)
+        else:
+            if current_node.get_right() == None:
+                node = Node()
+                node.set_value(value)
+                current_node.set_right(node)
+            else:
+                self._insert(current_node.get_right(), value)
+
+    def get_min(self):
+        if self.root.get_value() == None:
+            return None
+        current_node = self.root
+        while current_node.get_left() != None:
+            current_node = current_node.get_left()
+        return current_node.get_value()
+    def get_max(self):
+        if self.root.get_value() == None:
+            return None
+        current_node = self.root
+        while current_node.get_right() != None:
+            current_node = current_node.get_right()
+        return current_node.get_value()
+        
+    def is_in(self, value):
+        return self._is_in(self.root, value)
+
+    def _is_in(self, current_node, value):
+        if current_node is None:
+            return False
+        if value == current_node.get_value():
+            return True
+        elif value < current_node.get_value():
+            return self._is_in(current_node.get_left(), value)
+        else:
+            return self._is_in(current_node.get_right(), value)
+
+    def delete(self, value):
+        self.root =self._delete(self.root, value)
+
+    def _delete(self, current_node, value):
+        if current_node == None:
+            return current_node
+        if value < current_node.get_value():
+            current_node.set_left(self._delete(current_node.get_left(), value))
+        if value > current_node.get_value():
+            current_node.set_right(self._delete(current_node.get_right(), value))
+        # If the value is the same as the current node's value, this is the node to be deleted.
+        else:
+            # Node with only one child or no child
+            if current_node.get_left() is None:
+                return current_node.get_right()
+            elif current_node.get_right() is None:
+                return current_node.get_left()
+
+            # Node with two children: get the in-order successor (smallest in the right subtree)
+            current_node.set_value(self._get_min_value(current_node.get_right()))
+
+            # Delete the in-order successor
+            current_node.set_right(self._delete(current_node.get_right(), current_node.get_value()))
+
+        return current_node
+
+    def _get_min_value(self, node):
+        # Helper method to find the minimum value in a subtree
+        while node.get_left() is not None:
+            node = node.get_left()
+        return node.get_value()
+            
+tree = Tree()
+values = [5, 3, 7, 2, 4, 6, 8]
+
+for value in values:
+    tree.insert(value)
+    
+print(tree.is_in(5))
+print(tree.delete(5))
+print(tree.is_in(5))
