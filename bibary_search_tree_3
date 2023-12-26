@@ -1,1 +1,78 @@
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
 
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, value):
+        self.root = self._insert(self.root, value)
+
+    def _insert(self, root, value):
+        if root is None:
+            return TreeNode(value)
+        if value < root.value:
+            root.left = self._insert(root.left, value)
+        elif value > root.value:
+            root.right = self._insert(root.right, value)
+        return root
+
+    def is_in(self, value):
+        return self._is_in(self.root, value)
+
+    def _is_in(self, root, value):
+        if root is None:
+            return False
+        if root.value == value:
+            return True
+        elif value < root.value:
+            return self._is_in(root.left, value)
+        else:
+            return self._is_in(root.right, value)
+
+    def delete(self, value):
+        self.root = self._delete(self.root, value)
+
+    def _delete(self, root, value):
+        if root is None:
+            return root
+
+        if value < root.value:
+            root.left = self._delete(root.left, value)
+        elif value > root.value:
+            root.right = self._delete(root.right, value)
+        else:
+            # Node with only one child or no child
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+
+            # Node with two children: Get the inorder successor (smallest
+            # in the right subtree)
+            root.value = self._min_value_node(root.right).value
+
+            # Delete the inorder successor
+            root.right = self._delete(root.right, root.value)
+
+        return root
+
+    def _min_value_node(self, node):
+        current = node
+        while current.left is not None:
+            current = current.left
+        return current
+
+# Example usage:
+bst = BinarySearchTree()
+values = [5, 3, 7, 2, 4, 6, 8]
+
+for value in values:
+    bst.insert(value)
+
+print(bst.is_in(4))  
+bst.delete(4)
+print(bst.is_in(4))  
