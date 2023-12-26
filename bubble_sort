@@ -1,0 +1,11 @@
+random_list = [4, 8, 2, 5, 6, 1]
+def bubble_sort(array):
+    n = 0
+    while n < len(array):
+        for i in range(len(array) - 1):
+            if array[i] > array[i + 1]:
+                array[i] , array[i + 1] = array[i + 1], array[i]
+        n += 1
+
+bubble_sort(random_list)
+print(random_list)
