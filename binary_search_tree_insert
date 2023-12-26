@@ -1,0 +1,58 @@
+class Node:
+    def __init__(self):
+        self.value = None
+        self.left = None
+        self.right = None
+
+    def set_value(self, value):
+        self.value = value
+
+    def set_left(self, node):
+        self.left = node
+
+    def set_right(self, node):
+        self.right = node
+
+    def get_value(self):
+        return self.value
+
+    def get_left(self):
+        return self.left
+
+    def get_right(self):
+        return self.right
+
+
+class Tree:
+    def __init__(self):
+        self.root = Node()
+
+
+    def insert(self, value):
+        if self.root.get_value() == None:
+            self.root.set_value(value)
+        else:
+            node = Node()
+            node.set_value(value)
+            if self.root.get_value() > value:
+                self.root.set_left(node)
+            else:
+                self.root.set_right(node)
+        
+
+    def get_min(self):
+        if self.root.get_value() == None:
+            return None
+        if self.root.get_left() == None:
+            return self.root.get_value()
+        else:
+            return self.root.get_left().get_value()
+            
+    def get_max(self):
+        return self.root.get_value()
+
+tree = Tree()
+tree.insert(2)
+tree.insert(3)
+print(tree.get_min())
+print(tree.get_max())
