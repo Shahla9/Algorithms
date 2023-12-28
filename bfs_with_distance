@@ -1,0 +1,24 @@
+def bfs(head, graph):
+    dist = {head:0}
+    queue = [head]
+    marked = [head]
+    while queue:
+        node = queue[0]
+        queue = queue[1:]
+        for neighbour in graph[node]:
+            if neighbour not in marked:
+                queue.append(neighbour)
+                dist[neighbour] = dist[node]+1
+                marked.append(neighbour)
+    return dist
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F', 'G'],
+    'D': ['B'],
+    'E': ['B'],
+    'F': ['C'],
+    'G': ['C']
+}
+bfs('G', graph)
